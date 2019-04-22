@@ -17,5 +17,10 @@
 
 
 Broadcast::channel('chat', function ($user) {
-    return Auth::check();
+
+    return [
+        'id' => $user->id,
+        'name' => $user->name
+    ];
+    //return Auth::check();
 });

@@ -19,6 +19,16 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-4">
+                <div class="card bg-light">
+                    <div class="card-header">
+                        Users
+                    </div>
+                    <div class="p-1">
+                        <chat-user ></chat-user> {{-- :user="user" --}}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

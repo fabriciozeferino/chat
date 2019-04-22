@@ -4,7 +4,7 @@
                placeholder="Type your message here..." v-model="newMessage" @keyup.enter="sendMessage">
 
         <span class="input-group-btn">
-            <button class="btn btn-primary ml-2" id="btn-chat" @click="sendMessage">
+            <button class="btn btn-primary ml-2" id="btn-chat" @click="sendMessage" :disabled='isDisabled'>
                 Send
             </button>
         </span>
@@ -13,20 +13,29 @@
 
 <script>
     export default {
+
         props: ['user'],
         data() {
             return {
                 newMessage: ''
             }
         },
+
         methods: {
             sendMessage() {
+
                 this.$emit('messagesent', {
                     user: this.user,
                     message: this.newMessage
                 });
 
                 this.newMessage = '';
+            }
+        },
+
+        computed: {
+            isDisabled: function () {
+                return !this.newMessage;
             }
         }
     }

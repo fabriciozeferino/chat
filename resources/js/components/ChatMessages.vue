@@ -2,7 +2,7 @@
     <div>
         <transition-group :name="'fade'" tag="div">
             <div v-for="(message, index) in messages" :key="index + 0">
-                <div class="message"> {{message.id}}
+                <div class="message">
                     <div class="card-body p-2">
                         <div class="row">
                             <div class="col-8">
