@@ -23,7 +23,6 @@
 
         methods: {
             sendMessage() {
-
                 this.$emit('messagesent', {
                     user: this.user,
                     message: this.newMessage

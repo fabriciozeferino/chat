@@ -57,4 +57,10 @@ class ChatController extends Controller
 
         return response()->json( 'Message Sent!', 201);
     }
+
+
+    public function users(User $user)
+    {
+        return $user->all('id','name');
+    }
 }

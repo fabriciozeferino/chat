@@ -1872,28 +1872,50 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       users: []
     };
   },
+  beforeMount: function beforeMount() {
+    this.fetchAllUsers();
+  },
   mounted: function mounted() {
     var _this = this;
 
     window.Echo.join('chat').here(function (users) {
-      _this.users = users;
+      users.map(function (item) {
+        _this.users.find(function (u) {
+          return u.id === item.id;
+        }).isOnline = true;
+      }); //this.users = users
     }).joining(function (user) {
-      _this.users.push(user);
+      _this.users.find(function (u) {
+        return u.id === user.id;
+      }).isOnline = true; //this.users.push(user)
     }).leaving(function (user) {
-      _this.users = _this.users.filter(function (u) {
-        return u.id !== user.id;
-      });
+      _this.users.find(function (u) {
+        return u.id === user.id;
+      }).isOnline = false;
     });
   },
-  methods: {}
+  methods: {
+    fetchAllUsers: function fetchAllUsers() {
+      var _this2 = this;
+
+      axios.get('/users').then(function (response) {
+        return response.data;
+      }).then(function (users) {
+        // Set all users as offline
+        users.map(function (item) {
+          item.isOnline = false;
+
+          _this2.users.push(item);
+        });
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -6374,7 +6396,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\nimg[data-v-4399432e] {\n    float: left;\n    width: 50px;\n    height: 50px;\n}\n.about[data-v-4399432e] {\n    float: left;\n    margin-top: 8px;\n    padding-left: 8px;\n}\n.online[data-v-4399432e],\n.offline[data-v-4399432e]{\n    float: left;\n    margin-right: 3px;\n    font-size: 10px;\n}\n.online[data-v-4399432e] {\n    color: #86bb71;\n}\n.offline[data-v-4399432e] {\n    color: #e38968;\n}\n\n\n", ""]);
+exports.push([module.i, "\nimg[data-v-4399432e] {\n    float: left;\n    width: 50px;\n    height: 50px;\n}\n.about[data-v-4399432e] {\n    float: left;\n    margin-top: 8px;\n    padding-left: 8px;\n}\n.online[data-v-4399432e],\n.offline[data-v-4399432e] {\n    float: left;\n    margin-right: 3px;\n    font-size: 10px;\n}\n.online[data-v-4399432e] {\n    color: #86bb71;\n}\n.offline[data-v-4399432e] {\n    color: #e38968;\n}\n\n\n", ""]);
 
 // exports
 
@@ -48182,7 +48204,22 @@ var render = function() {
           _c("div", { staticClass: "about" }, [
             _c("div", { staticClass: "name" }, [_vm._v(_vm._s(user.name))]),
             _vm._v(" "),
-            _vm._m(0, true)
+            _c("div", { staticClass: "status" }, [
+              _c(
+                "span",
+                {
+                  staticClass: "badge badge-pill",
+                  class: user.isOnline ? "badge-success" : "badge-danger"
+                },
+                [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(user.isOnline ? "Online" : "Offline") +
+                      "\n                "
+                  )
+                ]
+              )
+            ])
           ])
         ]
       )
@@ -48190,18 +48227,7 @@ var render = function() {
     0
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "status" }, [
-      _c("span", { staticClass: "badge badge-pill badge-success" }, [
-        _vm._v("Online")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
