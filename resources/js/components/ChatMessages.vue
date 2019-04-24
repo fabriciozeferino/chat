@@ -3,18 +3,13 @@
         <transition-group :name="'fade'" tag="div">
             <div v-for="(message, index) in messages" :key="index + 0">
                 <div class="message">
-                    <div class="card-body p-2">
-                        <div class="row">
-                            <div class="col-8">
-                                <h6 class=" mb-1 text-muted">{{ message.user.name }}:</h6>
-                            </div>
-                            <div class="col-4 ">
-                                <small class=" mb-1 text-muted float-right">{{ message.user.created_at }}</small>
-                            </div>
-                        </div>
-                        <p class="card-text">{{ message.message }}</p>
+                    {{ message.user.name }}:
+                    <div :class="message.selfMessage ? 'sent_msg' : 'received_msg'">
+                        <p>{{ message.message }}</p>
+                        <span class="time_date">{{ message.created_at }}</span>
                     </div>
                 </div>
+
             </div>
         </transition-group>
     </div>
@@ -25,7 +20,7 @@
         props: ['messages'],
 
         methods: {
-            scrollToEnd() {
+            scrollPageToEnd() {
                 const chatPanel = document.querySelector("#chat-panel");
 
                 chatPanel.scrollTo(0, chatPanel.scrollHeight);
@@ -33,16 +28,44 @@
         },
 
         updated: function () {
-            this.scrollToEnd();
+            this.scrollPageToEnd();
         }
     };
 </script>
 
 <style>
+    p {
+        font-size: 14px;
+        display: inline-block;
+    }
     .message {
         border: 0;
-        margin-bottom: 0.5rem;
-        background-color: #ffffff;
+        margin-bottom: 20px;
+    }
+
+    .sent_msg p {
+        background: #0465ac;
+        color: #ffffff;
+        border-radius: 0 15px 15px 15px;
+        margin: 0;
+        padding: 5px 10px 5px 12px;
+        text-align: justify;
+    }
+
+    .received_msg p {
+        background: #ebebeb;
+        color: #545454;
+        border-radius: 0 15px 15px 15px;
+        margin: 0;
+        padding: 5px 10px 5px 12px;
+        text-align: justify;
+    }
+
+    .time_date {
+        color: #747474;
+        display: inline-block;
+        font-size: 12px;
+        margin: 1px 0 0;
     }
 
     .fade-enter {
@@ -50,7 +73,6 @@
     }
 
     .fade-enter-active {
-        transition: all 2s ease;
+        transition: all 1s ease;
     }
-
 </style>

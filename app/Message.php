@@ -16,6 +16,15 @@ class Message extends Model
         return $this->user_id === auth()->user()->id;
     }
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'created_at' => 'datetime:d/m/Y | H:i',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

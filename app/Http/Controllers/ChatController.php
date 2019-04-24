@@ -59,6 +59,12 @@ class ChatController extends Controller
     }
 
 
+    /**
+     * Return all users to show online or offline
+     *
+     * @param  User  $user
+     * @return User[]|Collection
+     */
     public function users(User $user)
     {
         return $user->all('id','name');
