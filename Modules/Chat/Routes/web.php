@@ -11,6 +11,21 @@
 |
 */
 
-Route::prefix('chat')->group(function() {
+
+Route::prefix('chat')->middleware(['auth'])->group(function () {
+
     Route::get('/', 'ChatController@index');
+
+    Route::get('/all', 'ChatController@all');
+
+    Route::get('/{chat_id}', 'ChatController@show');
+
+
+    Route::get('/users', 'ChatController@users');
+
+
+    Route::post('/{chat_id}/message', 'MessageController@store');
+
+    Route::get('/{chat_id}/messages', 'MessageController@getMessages');
+
 });

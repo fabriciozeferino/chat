@@ -23,8 +23,6 @@
 
         methods: {
             typing(e) {
-                console.log(e.keyCode);
-                console.log(e.shiftKey);
                 if (e.keyCode === 13 && !e.shiftKey) {
                     //e.preventDefault();
                     this.sendMessage();

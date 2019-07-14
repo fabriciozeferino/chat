@@ -1,19 +1,15 @@
-const mix = require('laravel-mix');
+let mix = require('laravel-mix');
 
-/* Allow multiple Laravel Mix applications*/
-require('laravel-mix-merge-manifest');
-mix.mergeManifest();
+mix.webpackConfig({
+    watchOptions: {
+        ignored: /node_modules/
+    }
+});
 
-/*
- |--------------------------------------------------------------------------
- | Mix Asset Management
- |--------------------------------------------------------------------------
- |
- | Mix provides a clean, fluent API for defining some Webpack build steps
- | for your Laravel application. By default, we are compiling the Sass
- | file for the application as well as bundling up all the JS files.
- |
- */
+
 
 mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+    .sass('resources/sass/app.scss', 'public/css');
+
+mix.js('Modules/Chat/Resources/assets/js/chat.js', 'public/js')
+    .sass('Modules/Chat/Resources/assets/sass/chat.scss', 'public/css');

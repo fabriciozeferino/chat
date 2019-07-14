@@ -6,14 +6,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Module Chat</title>
 
-       {{-- Laravel Mix - CSS File --}}
-        <link rel="stylesheet" href="{{ mix('css/chat.css') }}">
 
-    </head>
-    <body>
-        @yield('content')
-
-        {{-- Laravel Mix - JS File --}}
-         <script src="{{ mix('js/chat.js') }}"></script>
     </body>
 </html>

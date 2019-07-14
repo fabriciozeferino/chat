@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Events;
+namespace Modules\Chat\Events;
+
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -48,3 +49,4 @@ class MessageSent implements ShouldBroadcast
         return new PrivateChannel('chat');
     }
 }
+

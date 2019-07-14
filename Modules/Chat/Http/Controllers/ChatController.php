@@ -2,15 +2,46 @@
 
 namespace Modules\Chat\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
+use Modules\Chat\Services\ChatService;
+
 
 class ChatController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * @return Response
+     * @var
+     */
+    private $user_id;
+
+
+    /**
+     * @var ChatService
+     */
+    private $chatService;
+
+    /**
+     * ChatController constructor.
+     * @param ChatService $chatService
+     */
+    public function __construct(ChatService $chatService)
+    {
+        $this->middleware(function ($request, $next) {
+
+            $this->user_id = Auth::id();
+
+            return $next($request);
+        });
+
+        $this->chatService = $chatService;
+    }
+
+    /**
+     * Show chats
+     *
+     * @return View
      */
     public function index()
     {
@@ -18,62 +49,42 @@ class ChatController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @return Response
+     * Show a list of chat that the user has access
+     *
+     * @return ChatService
      */
-    public function create()
+    public function all()
     {
-        return view('chat::create');
+        return response()->json($this->chatService->all($this->user_id));
     }
 
+
     /**
-     * Store a newly created resource in storage.
+     * @param $chat_id
+     * @return ChatService
+     */
+    public function show($chat_id)
+    {
+        return response()->json($this->chatService->show($chat_id));
+    }
+
+
+
+
+    /**
+     * Persist message to database
+     *
      * @param Request $request
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
-    {
-        //
-    }
+//    public function store(CreateMessageRequest $request)
+//    {
+//        $this->messageService->create($request);
+//
+//    }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        return view('chat::show');
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        return view('chat::edit');
-    }
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+
 }
